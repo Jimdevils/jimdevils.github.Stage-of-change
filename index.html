@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบประเมินแรงจูงใจในการเปลี่ยนพฤติกรรมการดื่มสุรา</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN for Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Font (Sarabun) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- App Header -->
+    <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-inner text-indigo-600 font-bold text-lg">
+                    🍷
+                </div>
+                <div>
+                    <h1 class="font-bold text-base leading-tight">Contemplation Ladder</h1>
+                    <p class="text-xs text-indigo-200">ประเมินแรงจูงใจการดื่มสุรา</p>
+                </div>
+            </div>
+            <nav class="flex space-x-1">
+                <button onclick="switchTab('assessment')" id="nav-assessment" class="px-3 py-1.5 text-xs rounded-lg bg-indigo-700 font-medium transition">ประเมิน</button>
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-3 py-1.5 text-xs rounded-lg hover:bg-indigo-700 font-medium transition">แดชบอร์ด</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container (Mobile Frame Optimized) -->
+    <main class="flex-grow max-w-md w-full mx-auto p-4 pb-20">
+
+        <!-- TAB 1: ASSESSMENT SECTION -->
+        <section id="tab-assessment" class="space-y-4">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                <h2 class="font-bold text-slate-700 mb-1">บันทึกข้อมูลการประเมินใหม่</h2>
+                <p class="text-xs text-slate-500 mb-4">โปรดระบุข้อมูลผู้รับการประเมินและเลือกขั้นบันไดที่ตรงที่สุด</p>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">ชื่อผู้รับการประเมิน / รหัส (Anonymous ได้)</label>
+                        <input type="text" id="clientName" placeholder="เช่น นาย A หรือ HN-10023" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">วันที่ประเมิน</label>
+                        <input type="date" id="evalDate" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Ladder Questionnaire -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                <h3 class="font-bold text-slate-700 text-sm border-b pb-2">ขั้นบันไดแห่งแรงจูงใจ (Biener & Adams, 1991)</h3>
+                
+                <div class="space-y-2" id="ladderOptions">
+                    <!-- Option 10 -->
+                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="10" class="mt-1 text-indigo-600 focus:ring-indigo-500">
+                        <div class="ml-3 text-xs">
+                            <span class="font-bold text-indigo-700 text-sm">ขั้น 10:</span> จ. ฉันเริ่มลงมือกระทำบางสิ่งบางอย่างเพื่อที่จะเปลี่ยนแปลงพฤติกรรมการดื่มสุราของฉัน (เช่น ลดจำนวนและความถี่)
+                        </div>
+                    </label>
+                    <!-- Option 8 -->
+                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="8" class="mt-1 text-indigo-600 focus:ring-indigo-500">
+                        <div class="ml-3 text-xs">
+                            <span class="font-bold text-indigo-700 text-sm">ขั้น 8:</span> ง. ฉันเริ่มที่จะคิดเกี่ยวกับการหาวิธีการต่าง ๆ ที่จะทำให้ฉันสามารถเปลี่ยนแปลงพฤติกรรมการดื่มสุราของฉันได้
+                        </div>
+                    </label>
+                    <!-- Option 5 -->
+                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="5" class="mt-1 text-indigo-600 focus:ring-indigo-500">
+                        <div class="ml-3 text-xs">
+                            <span class="font-bold text-indigo-700 text-sm">ขั้น 5:</span> ค. ฉันคิดว่าในขณะนี้ฉันควรที่จะลดหรือหยุดดื่มสุรา แต่ฉันยังรู้สึกว่าตัวเองยังไม่พร้อมที่จะกระทำการเปลี่ยนแปลงดังกล่าว
+                        </div>
+                    </label>
+                    <!-- Option 2 -->
+                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="2" class="mt-1 text-indigo-600 focus:ring-indigo-500">
+                        <div class="ml-3 text-xs">
+                            <span class="font-bold text-indigo-700 text-sm">ขั้น 2:</span> ข. ฉันคิดว่าในวันใดวันหนึ่งข้างหน้าฉันจะต้องมาไตร่ตรองเกี่ยวกับการลดจำนวนการดื่มสุราหรือหยุดดื่มสุรา
+                        </div>
+                    </label>
+                    <!-- Option 0 -->
+                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="0" class="mt-1 text-indigo-600 focus:ring-indigo-500">
+                        <div class="ml-3 text-xs">
+                            <span class="font-bold text-indigo-700 text-sm">ขั้น 0:</span> ก. ฉันยังไม่คิดที่จะหยุดดื่มหรือลดปริมาณการดื่มสุราที่ฉันเคยดื่มอยู่เป็นประจำในตอนนี้ เนื่องจากระดับแอลกอฮอล์ที่ดื่มยังไม่ส่งผลให้เกิดปัญหาใด ๆ
+                        </div>
+                    </label>
+                </div>
+
+                <button onclick="saveAssessment()" class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl shadow-md transition text-sm">
+                    บันทึกผลและวิเคราะห์ระดับความรุนแรง
+                </button>
+            </div>
+
+            <!-- Result Modal / Card Container -->
+            <div id="resultCard" class="hidden bg-white p-4 rounded-2xl shadow-md border-2 border-indigo-100 space-y-3">
+                <div class="flex justify-between items-center border-b pb-2">
+                    <h3 class="font-bold text-slate-800 text-sm">ผลการวิเคราะห์ระดับแรงจูงใจ</h3>
+                    <span id="resBadge" class="px-2 py-0.5 rounded-full text-xs font-bold"></span>
+                </div>
+                <div id="resContent" class="text-xs text-slate-600 space-y-2">
+                    <!-- Dynamic details injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: DASHBOARD & REPORTS SECTION -->
+        <section id="tab-dashboard" class="hidden space-y-4">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-wrap justify-between items-center gap-2">
+                <div>
+                    <h2 class="font-bold text-slate-700 text-sm">สรุปผลภาพรวม (Dashboard)</h2>
+                    <p class="text-xs text-slate-500">รายงานข้อมูลรายเดือนสำหรับผู้บริหาร</p>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="exportData('csv')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium shadow-sm transition">
+                        Export CSV
+                    </button>
+                    <button onclick="exportData('json')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium shadow-sm transition">
+                        Export JSON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Summary KPI Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-xs text-slate-500">ประเมินทั้งหมด</p>
+                    <p id="kpiTotal" class="text-xl font-bold text-slate-800 mt-1">0 คน</p>
+                </div>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-xs text-slate-500">Action</p>
+                    <p id="kpiAction" class="text-xl font-bold text-emerald-600 mt-1">0 คน</p>
+                </div>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-xs text-slate-500">Preparation</p>
+                    <p id="kpiPrep" class="text-xl font-bold text-sky-600 mt-1">0 คน</p>
+                </div>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-xs text-slate-500">Contem / Pre-contem</p>
+                    <p id="kpiLow" class="text-xl font-bold text-amber-600 mt-1">0 คน</p>
+                </div>
+            </div>
+
+            <!-- Charts Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                    <h3 class="font-bold text-slate-700 text-xs">สัดส่วนระดับความพร้อมในการปรับเปลี่ยนพฤติกรรม</h3>
+                    <div class="relative w-full h-48 flex justify-center items-center">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                    <h3 class="font-bold text-slate-700 text-xs">แนวโน้มการประเมินรายเดือน (Monthly Trend)</h3>
+                    <div class="relative w-full h-48 flex justify-center items-center">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table History & Filter -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                    <h3 class="font-bold text-slate-700 text-xs">ประวัติการบันทึกข้อมูลและค้นหา</h3>
+                    <div class="flex space-x-2 w-full sm:w-auto">
+                        <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="ค้นหาชื่อ/รหัส..." class="px-2 py-1 text-xs border border-slate-200 rounded-lg focus:outline-none w-full sm:w-36">
+                        <button onclick="clearData()" class="text-rose-500 text-xs hover:underline whitespace-nowrap">ล้างข้อมูล</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto max-h-60">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-50 text-slate-500 sticky top-0">
+                            <tr>
+                                <th class="p-2">วันที่</th>
+                                <th class="p-2">ชื่อ/รหัส</th>
+                                <th class="p-2">คะแนน</th>
+                                <th class="p-2">ระดับแรงจูงใจ</th>
+                                <th class="p-2 text-center">จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody" class="divide-y divide-slate-100">
+                            <!-- Injected rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: APP ICON & GITHUB ASSET PREVIEW -->
+        <section id="tab-icon" class="hidden space-y-4">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                <h2 class="font-bold text-slate-700 text-sm">การออกแบบ App Icon สำหรับ GitHub Repository</h2>
+                <p class="text-xs text-slate-500">ภาพไอคอนดีไซน์ทันสมัย สื่อถึงขั้นบันไดและการปรับเปลี่ยนพฤติกรรม สามารถนำไปบันทึกเป็นไฟล์ <code>icon.svg</code> สำหรับใช้ในโปรเจกต์ GitHub</p>
+                
+                <!-- SVG Icon Preview -->
+                <div class="flex justify-center p-4 bg-slate-900 rounded-2xl">
+                    <svg width="120" height="120" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-3xl shadow-lg">
+                        <rect width="512" height="512" rx="112" fill="url(#paint0_linear)"/>
+                        <!-- Ladder Steps Graphics -->
+                        <path d="M160 384H352" stroke="white" stroke-width="32" stroke-linecap="round"/>
+                        <path d="M160 288H352" stroke="white" stroke-width="32" stroke-linecap="round"/>
+                        <path d="M160 192H352" stroke="white" stroke-width="32" stroke-linecap="round"/>
+                        <path d="M200 384V160" stroke="white" stroke-width="24" stroke-linecap="round"/>
+                        <path d="M312 384V160" stroke="white" stroke-width="24" stroke-linecap="round"/>
+                        <!-- Upward Progress Arrow -->
+                        <path d="M256 120L312 180H200L256 120Z" fill="#34D399"/>
+                        <defs>
+                            <linearGradient id="paint0_linear" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#4F46E5"/>
+                                <stop offset="1" stop-color="#3730A3"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs font-mono text-slate-600 overflow-x-auto">
+                    &lt;svg width="512" height="512" viewBox="0 0 512 512" ...&gt; (SVG Ready for GitHub Assets)
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bg-white border-t border-slate-100 fixed bottom-0 left-0 right-0 py-2 shadow-lg">
+        <div class="max-w-md mx-auto flex justify-around text-xs font-medium text-slate-500">
+            <button onclick="switchTab('assessment')" id="bot-assessment" class="flex flex-col items-center text-indigo-600">
+                <span class="text-lg">📋</span>
+                <span>ประเมิน</span>
+            </button>
+            <button onclick="switchTab('dashboard')" id="bot-dashboard" class="flex flex-col items-center hover:text-indigo-600">
+                <span class="text-lg">📊</span>
+                <span>แดชบอร์ด</span>
+            </button>
+            <button onclick="switchTab('icon')" id="bot-icon" class="flex flex-col items-center hover:text-indigo-600">
+                <span class="text-lg">🎨</span>
+                <span>App Icon</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Set default date to today
+        document.getElementById('evalDate').valueAsDate = new Date();
+
+        let evaluations = JSON.parse(localStorage.getItem('evaluations') || '[]');
+        let chartInstance = null;
+        let trendChartInstance = null;
+
+        function switchTab(tabName) {
+            ['assessment', 'dashboard', 'icon'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`bot-${t}`).classList.remove('text-indigo-600');
+                document.getElementById(`bot-${t}`).classList.add('text-slate-500');
+            });
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`bot-${tabName}`).classList.remove('text-slate-500');
+            document.getElementById(`bot-${tabName}`).classList.add('text-indigo-600');
+
+            if (tabName === 'dashboard') {
+                renderDashboard();
+            }
+        }
+
+        function evaluateSeverity(score) {
+            let severity, category, badgeClass, advice;
+            if (score >= 9) {
+                category = 'Action';
+                severity = 'Action (ระยะลงมือปฏิบัติ 9-10)';
+                badgeClass = 'bg-emerald-100 text-emerald-700';
+                advice = 'ผู้รับการประเมินกำลังลงมือลดหรือหยุดดื่มอย่างจริงจัง ควรให้แรงเสริมเชิงบวก (Positive Reinforcement) ช่วยวางแผนป้องกันการกลับไปดื่มซ้ำ (Relapse Prevention) และสนับสนุนเป้าหมายต่อเนื่อง';
+            } else if (score >= 6) {
+                category = 'Preparation';
+                severity = 'Preparation (ระยะเตรียมการ 6-8)';
+                badgeClass = 'bg-sky-100 text-sky-700';
+                advice = 'ผู้รับการประเมินเริ่มหาแนวทางในการปรับเปลี่ยน แนะนำให้ช่วยวางแผนการลด/หยุดดื่มอย่างเป็นขั้นตอน กำหนดวันเริ่มหยุดดื่ม และเตรียมรับมือกับอุปสรรคหรือสิ่งกระตุ้น';
+            } else if (score >= 2) {
+                category = 'Contemplation';
+                severity = 'Contemplation (ระยะไตร่ตรอง 2-5)';
+                badgeClass = 'bg-amber-100 text-amber-700';
+                advice = 'ผู้รับการประเมินเริ่มลังเลและตระหนักถึงปัญหา แนะนำใช้เทคนิคสร้างแรงจูงใจ (Motivational Interviewing) เพื่อช่วยชั่งน้ำหนักข้อดี-ข้อเสียของการดื่มสุรา และกระตุ้นความมั่นใจในการเปลี่ยน';
+            } else {
+                category = 'Precontemplation';
+                severity = 'Precontemplation (ระยะยังไม่สนใจเปลี่ยน 0-1)';
+                badgeClass = 'bg-rose-100 text-rose-700';
+                advice = 'ผู้รับการประเมินยังไม่คิดว่าตนเองมีปัญหาจากการดื่ม ควรเน้นการสะท้อนข้อมูลสุขภาพแบบไม่ตัดสิน (Non-judgmental) ให้ข้อมูลผลกระทบโดยรวม เพื่อสร้างความตระหนักรู้เบื้องต้น';
+            }
+            return { severity, category, badgeClass, advice };
+        }
+
+        function saveAssessment() {
+            const clientName = document.getElementById('clientName').value.trim() || 'ไม่ระบุชื่อ';
+            const evalDate = document.getElementById('evalDate').value;
+            const selectedRadio = document.querySelector('input[name="ladderScore"]:checked');
+
+            if (!selectedRadio) {
+                alert('กรุณาเลือกขั้นบันไดแรงจูงใจอย่างน้อย 1 ข้อครับ');
+                return;
+            }
+
+            const score = parseInt(selectedRadio.value);
+            const evaluationResult = evaluateSeverity(score);
+
+            const record = {
+                id: Date.now(),
+                clientName,
+                evalDate,
+                score,
+                category: evaluationResult.category,
+                severity: evaluationResult.severity,
+                advice: evaluationResult.advice
+            };
+
+            evaluations.push(record);
+            localStorage.setItem('evaluations', JSON.stringify(evaluations));
+
+            showResultCard(record, evaluationResult);
+        }
+
+        function deleteRecord(id) {
+            if (confirm('ต้องการลบรายการนี้หรือไม่?')) {
+                evaluations = evaluations.filter(item => item.id !== id);
+                localStorage.setItem('evaluations', JSON.stringify(evaluations));
+                renderDashboard();
+            }
+        }
+
+        function showResultCard(record, res) {
+            const card = document.getElementById('resultCard');
+            const badge = document.getElementById('resBadge');
+            const content = document.getElementById('resContent');
+
+            card.classList.remove('hidden');
+            badge.className = `px-2 py-0.5 rounded-full text-xs font-bold ${res.badgeClass}`;
+            badge.innerText = `คะแนน: ${record.score} | ${res.severity}`;
+
+            content.innerHTML = `
+                <p><strong>ผู้รับการประเมิน:</strong> ${record.clientName} (${record.evalDate})</p>
+                <p><strong>คำแนะนำเชิงพฤติกรรม (Brief Intervention Guide):</strong> ${res.advice}</p>
+                <button onclick="switchTab('dashboard')" class="mt-2 text-indigo-600 font-semibold hover:underline block">ดูกราฟสรุปผลภาพรวม Dashboard &rarr;</button>
+            `;
+            card.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderDashboard() {
+            const query = (document.getElementById('searchInput')?.value || '').toLowerCase();
+            const filteredData = evaluations.filter(e => 
+                e.clientName.toLowerCase().includes(query) || e.evalDate.includes(query)
+            );
+
+            // Update KPIs
+            document.getElementById('kpiTotal').innerText = `${filteredData.length} คน`;
+            document.getElementById('kpiAction').innerText = `${filteredData.filter(e => e.score >= 9).length} คน`;
+            document.getElementById('kpiPrep').innerText = `${filteredData.filter(e => e.score >= 6 && e.score <= 8).length} คน`;
+            document.getElementById('kpiLow').innerText = `${filteredData.filter(e => e.score <= 5).length} คน`;
+
+            // Render table history
+            const tbody = document.getElementById('historyTableBody');
+            tbody.innerHTML = '';
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400">ไม่พบข้อมูลการประเมิน</td></tr>`;
+            } else {
+                [...filteredData].reverse().forEach(item => {
+                    let badgeColor = item.score >= 9 ? 'text-emerald-600' : (item.score >= 6 ? 'text-sky-600' : (item.score >= 2 ? 'text-amber-600' : 'text-rose-600'));
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 whitespace-nowrap">${item.evalDate}</td>
+                            <td class="p-2 font-medium">${item.clientName}</td>
+                            <td class="p-2 font-bold ${badgeColor}">ขั้น ${item.score}</td>
+                            <td class="p-2 text-xs">${item.severity || item.category}</td>
+                            <td class="p-2 text-center">
+                                <button onclick="deleteRecord(${item.id})" class="text-rose-500 hover:text-rose-700 font-bold px-1">✕</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            // Render Charts
+            const counts = { action: 0, prep: 0, contem: 0, precontem: 0 };
+            evaluations.forEach(e => {
+                if (e.score >= 9) counts.action++;
+                else if (e.score >= 6) counts.prep++;
+                else if (e.score >= 2) counts.contem++;
+                else counts.precontem++;
+            });
+
+            // Risk Pie Chart
+            const ctx = document.getElementById('riskChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Action (9-10)', 'Preparation (6-8)', 'Contemplation (2-5)', 'Precontemplation (0-1)'],
+                    datasets: [{
+                        data: [counts.action, counts.prep, counts.contem, counts.precontem],
+                        backgroundColor: ['#10B981', '#0EA5E9', '#F59E0B', '#F43F5E'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { family: 'Sarabun', size: 10 } } }
+                    }
+                }
+            });
+
+            // Monthly Trend Line Chart
+            const monthCounts = {};
+            evaluations.forEach(e => {
+                const month = e.evalDate.substring(0, 7); // YYYY-MM
+                monthCounts[month] = (monthCounts[month] || 0) + 1;
+            });
+
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            if (trendChartInstance) trendChartInstance.destroy();
+
+            const sortedMonths = Object.keys(monthCounts).sort();
+            trendChartInstance = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: sortedMonths.length ? sortedMonths : ['ไม่มีข้อมูล'],
+                    datasets: [{
+                        label: 'จำนวนผู้รับการประเมิน',
+                        data: sortedMonths.length ? sortedMonths.map(m => monthCounts[m]) : [0],
+                        borderColor: '#4F46E5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { precision: 0, font: { family: 'Sarabun', size: 10 } } },
+                        x: { ticks: { font: { family: 'Sarabun', size: 10 } } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function exportData(format = 'csv') {
+            if (evaluations.length === 0) {
+                alert('ไม่มีข้อมูลสำหรับ Export');
+                return;
+            }
+
+            if (format === 'json') {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(evaluations, null, 2));
+                const a = document.createElement('a');
+                a.href = dataStr;
+                a.download = `contemplation_ladder_data_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                return;
+            }
+
+            let csv = 'ID,ClientName,Date,Score,Category,Severity\n';
+            evaluations.forEach(e => {
+                csv += `${e.id},"${e.clientName}",${e.evalDate},${e.score},"${e.category || ''}","${e.severity || ''}"\n`;
+            });
+            const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `alcohol_motivation_report_${new Date().toISOString().slice(0,10)}.csv`;
+            a.click();
+        }
+    </script>
+</body>
+</html>
