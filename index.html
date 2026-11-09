@@ -3,177 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แบบประเมินแรงจูงใจในการเปลี่ยนพฤติกรรมการดื่มสุรา</title>
+    <title>แบบประเมินขั้นบันไดของแรงจูงใจในการเปลี่ยนพฤติกรรม (Contemplation Ladder)</title>
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN for Dashboard -->
+    
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Google Font (Sarabun) -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- PWA Web App Manifest (Inline Data URI) -->
+    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Contemplation%20Ladder%22%2C%22short_name%22%3A%22LadderApp%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23F8FAFC%22%2C%22theme_color%22%3A%22%230D9488%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%27128%27%2520fill%3D%27%230D9488%27%2F%253E%253Cpath%2520d%3D%27M160%2520384H352M160%2520288H352M160%2520192H352%27%2520stroke%3D%27white%27%2520stroke-width%3D%2732%27%2520stroke-linecap%3D%27round%27%2F%253E%253Cpath%2520d%3D%27M200%2520384V160M312%2520384V160%27%2520stroke%3D%27white%27%2520stroke-width%3D%2724%27%2520stroke-linecap%3D%27round%27%2F%253E%253Cpath%2520d%3D%27M256%2520110L312%2520170H200L256%2520110Z%27%2520fill%3D%27%2334D399%27%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+    
+    <!-- Mobile App Icon (Embedded Data URI for Safari & Chrome Home Screen) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='128' fill='%230D9488'/><path d='M160 384H352M160 288H352M160 192H352' stroke='white' stroke-width='32' stroke-linecap='round'/><path d='M200 384V160M312 384V160' stroke='white' stroke-width='24' stroke-linecap='round'/><path d='M256 110L312 170H200L256 110Z' fill='%2334D399'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='128' fill='%230D9488'/><path d='M160 384H352M160 288H352M160 192H352' stroke='white' stroke-width='32' stroke-linecap='round'/><path d='M200 384V160M312 384V160' stroke='white' stroke-width='24' stroke-linecap='round'/><path d='M256 110L312 170H200L256 110Z' fill='%2334D399'/></svg>">
+    <meta name="theme-color" content="#0D9488">
+
     <style>
         body { font-family: 'Sarabun', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
 
-    <!-- App Header -->
-    <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-50">
+    <!-- Header Navigation -->
+    <header class="bg-teal-700 text-white shadow-md sticky top-0 z-50">
         <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-inner text-indigo-600 font-bold text-lg">
-                    🍷
+            <div class="flex items-center space-x-2.5">
+                <div class="w-9 h-9 bg-teal-800/60 rounded-xl flex items-center justify-center border border-teal-500/30">
+                    <svg class="w-5 h-5 text-teal-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
                 </div>
                 <div>
                     <h1 class="font-bold text-base leading-tight">Contemplation Ladder</h1>
-                    <p class="text-xs text-indigo-200">ประเมินแรงจูงใจการดื่มสุรา</p>
+                    <p class="text-[11px] text-teal-100">แรงจูงใจในการปรับเปลี่ยนพฤติกรรม</p>
                 </div>
             </div>
             <nav class="flex space-x-1">
-                <button onclick="switchTab('assessment')" id="nav-assessment" class="px-3 py-1.5 text-xs rounded-lg bg-indigo-700 font-medium transition">ประเมิน</button>
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-3 py-1.5 text-xs rounded-lg hover:bg-indigo-700 font-medium transition">แดชบอร์ด</button>
+                <button onclick="switchTab('assessment')" id="nav-assessment" class="px-3 py-1.5 text-xs rounded-lg bg-teal-800 text-white font-medium transition">ประเมิน</button>
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-3 py-1.5 text-xs rounded-lg hover:bg-teal-800/60 text-teal-100 font-medium transition">แดชบอร์ด</button>
             </nav>
         </div>
     </header>
 
-    <!-- Main Container (Mobile Frame Optimized) -->
-    <main class="flex-grow max-w-md w-full mx-auto p-4 pb-20">
+    <!-- Main Mobile Content Area -->
+    <main class="flex-grow max-w-md w-full mx-auto p-4 pb-24">
 
-        <!-- TAB 1: ASSESSMENT SECTION -->
+        <!-- TAB 1: QUESTIONNAIRE ASSESSMENT -->
         <section id="tab-assessment" class="space-y-4">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-                <h2 class="font-bold text-slate-700 mb-1">บันทึกข้อมูลการประเมินใหม่</h2>
-                <p class="text-xs text-slate-500 mb-4">โปรดระบุข้อมูลผู้รับการประเมินและเลือกขั้นบันไดที่ตรงที่สุด</p>
+            <!-- User Metadata Input -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80">
+                <h2 class="font-bold text-slate-700 mb-1 text-sm">ข้อมูลการสัมภาษณ์</h2>
+                <p class="text-xs text-slate-500 mb-3">กรอกข้อมูลพื้นฐานก่อนเริ่มทำการประเมิน</p>
                 
                 <div class="space-y-3">
                     <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">ชื่อผู้รับการประเมิน / รหัส (Anonymous ได้)</label>
-                        <input type="text" id="clientName" placeholder="เช่น นาย A หรือ HN-10023" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <label class="block text-xs font-medium text-slate-600 mb-1">ชื่อผู้รับการประเมิน / รหัสอ้างอิง</label>
+                        <input type="text" id="clientName" placeholder="เช่น นาย A หรือ HN-10023" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">วันที่ประเมิน</label>
-                        <input type="date" id="evalDate" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <label class="block text-xs font-medium text-slate-600 mb-1">วัน/เดือน/ปี ที่สัมภาษณ์</label>
+                        <input type="date" id="evalDate" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500">
                     </div>
                 </div>
             </div>
 
-            <!-- The Ladder Questionnaire -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
-                <h3 class="font-bold text-slate-700 text-sm border-b pb-2">ขั้นบันไดแห่งแรงจูงใจ (Biener & Adams, 1991)</h3>
-                
-                <div class="space-y-2" id="ladderOptions">
+            <!-- Questionnaire Form -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-sm">แบบสอบถามขั้นบันไดของแรงจูงใจ</h3>
+                    <p class="text-xs text-slate-500 mt-1">คำชี้แจง: โปรดเลือกหมายเลขที่ตรงกับความคิดเห็นของผู้ดื่มสุราอย่างมากที่สุดในขณะนี้</p>
+                </div>
+
+                <div class="space-y-2 mt-3" id="ladderOptions">
                     <!-- Option 10 -->
-                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="radio" name="ladderScore" value="10" class="mt-1 text-indigo-600 focus:ring-indigo-500">
-                        <div class="ml-3 text-xs">
-                            <span class="font-bold text-indigo-700 text-sm">ขั้น 10:</span> จ. ฉันเริ่มลงมือกระทำบางสิ่งบางอย่างเพื่อที่จะเปลี่ยนแปลงพฤติกรรมการดื่มสุราของฉัน (เช่น ลดจำนวนและความถี่)
+                    <label class="flex items-start p-3 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="10" class="mt-1 text-teal-600 focus:ring-teal-500">
+                        <div class="ml-3 text-xs leading-relaxed">
+                            <div class="font-bold text-teal-700 text-sm">ขั้น 10</div>
+                            <span class="font-bold text-slate-700">จ.</span> ฉันเริ่มลงมือกระทำบางสิ่งบางอย่างเพื่อที่จะเปลี่ยนแปลงพฤติกรรมการดื่มสุราของฉัน <span class="text-slate-500">(เช่น ลดจำนวนและความถี่ในการดื่มสุรา)</span>
                         </div>
                     </label>
+
                     <!-- Option 8 -->
-                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="radio" name="ladderScore" value="8" class="mt-1 text-indigo-600 focus:ring-indigo-500">
-                        <div class="ml-3 text-xs">
-                            <span class="font-bold text-indigo-700 text-sm">ขั้น 8:</span> ง. ฉันเริ่มที่จะคิดเกี่ยวกับการหาวิธีการต่าง ๆ ที่จะทำให้ฉันสามารถเปลี่ยนแปลงพฤติกรรมการดื่มสุราของฉันได้
+                    <label class="flex items-start p-3 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="8" class="mt-1 text-teal-600 focus:ring-teal-500">
+                        <div class="ml-3 text-xs leading-relaxed">
+                            <div class="font-bold text-teal-700 text-sm">ขั้น 8</div>
+                            <span class="font-bold text-slate-700">ง.</span> ฉันเริ่มที่จะคิดเกี่ยวกับการหาวิธีการต่าง ๆ ที่จะทำให้ฉันสามารถเปลี่ยนแปลงพฤติกรรมการดื่มสุราของฉันได้
                         </div>
                     </label>
+
                     <!-- Option 5 -->
-                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="radio" name="ladderScore" value="5" class="mt-1 text-indigo-600 focus:ring-indigo-500">
-                        <div class="ml-3 text-xs">
-                            <span class="font-bold text-indigo-700 text-sm">ขั้น 5:</span> ค. ฉันคิดว่าในขณะนี้ฉันควรที่จะลดหรือหยุดดื่มสุรา แต่ฉันยังรู้สึกว่าตัวเองยังไม่พร้อมที่จะกระทำการเปลี่ยนแปลงดังกล่าว
+                    <label class="flex items-start p-3 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="5" class="mt-1 text-teal-600 focus:ring-teal-500">
+                        <div class="ml-3 text-xs leading-relaxed">
+                            <div class="font-bold text-teal-700 text-sm">ขั้น 5</div>
+                            <span class="font-bold text-slate-700">ค.</span> ฉันคิดว่าในขณะนี้ฉันควรที่จะลดหรือหยุดดื่มสุรา แต่ฉันยังรู้สึกว่าตัวเองยังไม่พร้อมที่จะกระทำการเปลี่ยนแปลงดังกล่าว
                         </div>
                     </label>
+
                     <!-- Option 2 -->
-                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="radio" name="ladderScore" value="2" class="mt-1 text-indigo-600 focus:ring-indigo-500">
-                        <div class="ml-3 text-xs">
-                            <span class="font-bold text-indigo-700 text-sm">ขั้น 2:</span> ข. ฉันคิดว่าในวันใดวันหนึ่งข้างหน้าฉันจะต้องมาไตร่ตรองเกี่ยวกับการลดจำนวนการดื่มสุราหรือหยุดดื่มสุรา
+                    <label class="flex items-start p-3 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="2" class="mt-1 text-teal-600 focus:ring-teal-500">
+                        <div class="ml-3 text-xs leading-relaxed">
+                            <div class="font-bold text-teal-700 text-sm">ขั้น 2</div>
+                            <span class="font-bold text-slate-700">ข.</span> ฉันคิดว่าในวันใดวันหนึ่งข้างหน้าฉันจะต้องมาไตร่ตรองเกี่ยวกับการลดจำนวนการดื่มสุราหรือหยุดดื่มสุรา
                         </div>
                     </label>
+
                     <!-- Option 0 -->
-                    <label class="flex items-start p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                        <input type="radio" name="ladderScore" value="0" class="mt-1 text-indigo-600 focus:ring-indigo-500">
-                        <div class="ml-3 text-xs">
-                            <span class="font-bold text-indigo-700 text-sm">ขั้น 0:</span> ก. ฉันยังไม่คิดที่จะหยุดดื่มหรือลดปริมาณการดื่มสุราที่ฉันเคยดื่มอยู่เป็นประจำในตอนนี้ เนื่องจากระดับแอลกอฮอล์ที่ดื่มยังไม่ส่งผลให้เกิดปัญหาใด ๆ
+                    <label class="flex items-start p-3 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/50 cursor-pointer transition">
+                        <input type="radio" name="ladderScore" value="0" class="mt-1 text-teal-600 focus:ring-teal-500">
+                        <div class="ml-3 text-xs leading-relaxed">
+                            <div class="font-bold text-teal-700 text-sm">ขั้น 0</div>
+                            <span class="font-bold text-slate-700">ก.</span> ฉันยังไม่คิดที่จะหยุดดื่มหรือลดปริมาณการดื่มสุราที่ฉันเคยดื่มอยู่เป็นประจำในตอนนี้ เนื่องจากระดับแอลกอฮอล์ที่ฉันดื่มอยู่ตอนนี้ยังไม่ได้ส่งผลทำให้ฉันเกิดปัญหาใด ๆ ตามมา
                         </div>
                     </label>
                 </div>
 
-                <button onclick="saveAssessment()" class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl shadow-md transition text-sm">
-                    บันทึกผลและวิเคราะห์ระดับความรุนแรง
+                <div class="pt-2 text-[10px] text-slate-400 italic">
+                    The Contemplation Ladder, Biener and Adams, 1991 แปลและตรวจสอบคุณภาพโดย ดรุณี ภู่ขาว และคณะ, 2549
+                </div>
+
+                <button onclick="saveAssessment()" class="w-full mt-3 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white font-semibold py-3 rounded-xl shadow-md transition text-sm flex justify-center items-center space-x-2">
+                    <span>ประเมินผลและบันทึกข้อมูล</span>
                 </button>
             </div>
 
-            <!-- Result Modal / Card Container -->
-            <div id="resultCard" class="hidden bg-white p-4 rounded-2xl shadow-md border-2 border-indigo-100 space-y-3">
-                <div class="flex justify-between items-center border-b pb-2">
-                    <h3 class="font-bold text-slate-800 text-sm">ผลการวิเคราะห์ระดับแรงจูงใจ</h3>
-                    <span id="resBadge" class="px-2 py-0.5 rounded-full text-xs font-bold"></span>
+            <!-- Result Analysis Panel -->
+            <div id="resultCard" class="hidden bg-white p-4 rounded-2xl shadow-md border-2 border-teal-100 space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                    <h3 class="font-bold text-slate-800 text-sm">ผลการประเมินและแนวทางดูแล</h3>
+                    <span id="resBadge" class="px-2.5 py-1 rounded-full text-xs font-bold"></span>
                 </div>
                 <div id="resContent" class="text-xs text-slate-600 space-y-2">
-                    <!-- Dynamic details injected here -->
+                    <!-- Injected evaluation results -->
                 </div>
             </div>
         </section>
 
-        <!-- TAB 2: DASHBOARD & REPORTS SECTION -->
+        <!-- TAB 2: EXECUTIVE DASHBOARD & REPORTS -->
         <section id="tab-dashboard" class="hidden space-y-4">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-wrap justify-between items-center gap-2">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-wrap justify-between items-center gap-2">
                 <div>
-                    <h2 class="font-bold text-slate-700 text-sm">สรุปผลภาพรวม (Dashboard)</h2>
-                    <p class="text-xs text-slate-500">รายงานข้อมูลรายเดือนสำหรับผู้บริหาร</p>
+                    <h2 class="font-bold text-slate-800 text-sm">สรุปผลภาพรวม (Executive Dashboard)</h2>
+                    <p class="text-xs text-slate-500">รายงานข้อมูลและระดับแรงจูงใจรายเดือน</p>
                 </div>
                 <div class="flex space-x-2">
                     <button onclick="exportData('csv')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium shadow-sm transition">
                         Export CSV
                     </button>
-                    <button onclick="exportData('json')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium shadow-sm transition">
+                    <button onclick="exportData('json')" class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium shadow-sm transition">
                         Export JSON
                     </button>
                 </div>
             </div>
 
             <!-- Summary KPI Cards -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-                    <p class="text-xs text-slate-500">ประเมินทั้งหมด</p>
-                    <p id="kpiTotal" class="text-xl font-bold text-slate-800 mt-1">0 คน</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200/80">
+                    <p class="text-[11px] font-medium text-slate-500">ประเมินทั้งหมด</p>
+                    <p id="kpiTotal" class="text-xl font-bold text-slate-800 mt-0.5">0 คน</p>
                 </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-                    <p class="text-xs text-slate-500">Action</p>
-                    <p id="kpiAction" class="text-xl font-bold text-emerald-600 mt-1">0 คน</p>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200/80">
+                    <p class="text-[11px] font-medium text-slate-500">Action</p>
+                    <p id="kpiAction" class="text-xl font-bold text-emerald-600 mt-0.5">0 คน</p>
                 </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-                    <p class="text-xs text-slate-500">Preparation</p>
-                    <p id="kpiPrep" class="text-xl font-bold text-sky-600 mt-1">0 คน</p>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200/80">
+                    <p class="text-[11px] font-medium text-slate-500">Preparation</p>
+                    <p id="kpiPrep" class="text-xl font-bold text-sky-600 mt-0.5">0 คน</p>
                 </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-                    <p class="text-xs text-slate-500">Contem / Pre-contem</p>
-                    <p id="kpiLow" class="text-xl font-bold text-amber-600 mt-1">0 คน</p>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200/80">
+                    <p class="text-[11px] font-medium text-slate-500">Contem / Pre-contem</p>
+                    <p id="kpiLow" class="text-xl font-bold text-amber-600 mt-0.5">0 คน</p>
                 </div>
             </div>
 
-            <!-- Charts Container -->
+            <!-- Charts Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
-                    <h3 class="font-bold text-slate-700 text-xs">สัดส่วนระดับความพร้อมในการปรับเปลี่ยนพฤติกรรม</h3>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-2">
+                    <h3 class="font-bold text-slate-700 text-xs">สัดส่วนระยะแรงจูงใจในการเปลี่ยนพฤติกรรม</h3>
                     <div class="relative w-full h-48 flex justify-center items-center">
                         <canvas id="riskChart"></canvas>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
-                    <h3 class="font-bold text-slate-700 text-xs">แนวโน้มการประเมินรายเดือน (Monthly Trend)</h3>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-2">
+                    <h3 class="font-bold text-slate-700 text-xs">แนวโน้มจำนวนผู้รับการประเมินรายเดือน</h3>
                     <div class="relative w-full h-48 flex justify-center items-center">
                         <canvas id="trendChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- Data Table History & Filter -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+            <!-- Data Table & Search -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                    <h3 class="font-bold text-slate-700 text-xs">ประวัติการบันทึกข้อมูลและค้นหา</h3>
+                    <h3 class="font-bold text-slate-700 text-xs">ประวัติและข้อมูลการประเมิน</h3>
                     <div class="flex space-x-2 w-full sm:w-auto">
-                        <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="ค้นหาชื่อ/รหัส..." class="px-2 py-1 text-xs border border-slate-200 rounded-lg focus:outline-none w-full sm:w-36">
+                        <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="ค้นหาชื่อ/รหัส..." class="px-2.5 py-1 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-teal-500 w-full sm:w-36">
                         <button onclick="clearData()" class="text-rose-500 text-xs hover:underline whitespace-nowrap">ล้างข้อมูล</button>
                     </div>
                 </div>
@@ -184,74 +215,73 @@
                                 <th class="p-2">วันที่</th>
                                 <th class="p-2">ชื่อ/รหัส</th>
                                 <th class="p-2">คะแนน</th>
-                                <th class="p-2">ระดับแรงจูงใจ</th>
+                                <th class="p-2">ระดับระยะ</th>
                                 <th class="p-2 text-center">จัดการ</th>
                             </tr>
                         </thead>
                         <tbody id="historyTableBody" class="divide-y divide-slate-100">
-                            <!-- Injected rows -->
+                            <!-- Injected dynamically -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 3: APP ICON & GITHUB ASSET PREVIEW -->
+        <!-- TAB 3: APP ICON DESIGN & ASSETS -->
         <section id="tab-icon" class="hidden space-y-4">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3">
-                <h2 class="font-bold text-slate-700 text-sm">การออกแบบ App Icon สำหรับ GitHub Repository</h2>
-                <p class="text-xs text-slate-500">ภาพไอคอนดีไซน์ทันสมัย สื่อถึงขั้นบันไดและการปรับเปลี่ยนพฤติกรรม สามารถนำไปบันทึกเป็นไฟล์ <code>icon.svg</code> สำหรับใช้ในโปรเจกต์ GitHub</p>
-                
-                <!-- SVG Icon Preview -->
-                <div class="flex justify-center p-4 bg-slate-900 rounded-2xl">
-                    <svg width="120" height="120" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-3xl shadow-lg">
-                        <rect width="512" height="512" rx="112" fill="url(#paint0_linear)"/>
-                        <!-- Ladder Steps Graphics -->
-                        <path d="M160 384H352" stroke="white" stroke-width="32" stroke-linecap="round"/>
-                        <path d="M160 288H352" stroke="white" stroke-width="32" stroke-linecap="round"/>
-                        <path d="M160 192H352" stroke="white" stroke-width="32" stroke-linecap="round"/>
-                        <path d="M200 384V160" stroke="white" stroke-width="24" stroke-linecap="round"/>
-                        <path d="M312 384V160" stroke="white" stroke-width="24" stroke-linecap="round"/>
-                        <!-- Upward Progress Arrow -->
-                        <path d="M256 120L312 180H200L256 120Z" fill="#34D399"/>
-                        <defs>
-                            <linearGradient id="paint0_linear" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#4F46E5"/>
-                                <stop offset="1" stop-color="#3730A3"/>
-                            </linearGradient>
-                        </defs>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
+                <h2 class="font-bold text-slate-800 text-sm">การออกแบบ App Icon บนมือถือ & GitHub</h2>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    ภาพไอคอนนี้ถูกฝังแบบ Web App (PWA) บน Safari และ Android Chrome เรียบร้อยแล้ว เมื่อกด <strong>"Add to Home Screen (เพิ่มไปยังหน้าจอโฮม)"</strong> จะแสดงเป็นไอคอนแอปพลิเคชันอย่างสวยงามบนหน้าจอมือถือ
+                </p>
+
+                <!-- Icon Graphic Preview -->
+                <div class="flex flex-col items-center justify-center p-6 bg-slate-900 rounded-2xl space-y-3">
+                    <svg width="128" height="128" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-3xl shadow-2xl">
+                        <rect width="512" height="512" rx="128" fill="#0D9488"/>
+                        <path d="M160 384H352M160 288H352M160 192H352" stroke="white" stroke-width="32" stroke-linecap="round"/>
+                        <path d="M200 384V160M312 384V160" stroke="white" stroke-width="24" stroke-linecap="round"/>
+                        <path d="M256 110L312 170H200L256 110Z" fill="#34D399"/>
                     </svg>
+                    <span class="text-slate-300 text-xs font-mono">App Icon (512x512 SVG)</span>
                 </div>
 
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs font-mono text-slate-600 overflow-x-auto">
-                    &lt;svg width="512" height="512" viewBox="0 0 512 512" ...&gt; (SVG Ready for GitHub Assets)
+                <div class="space-y-2 pt-2">
+                    <h4 class="font-bold text-slate-700 text-xs">ไฟล์สินทรัพย์สำหรับ GitHub Repository:</h4>
+                    <div class="flex space-x-2">
+                        <button onclick="downloadSvgIcon()" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold py-2 rounded-xl transition shadow-sm text-center">
+                            ดาวน์โหลด icon.svg
+                        </button>
+                        <button onclick="downloadManifest()" class="flex-1 bg-slate-700 hover:bg-slate-800 text-white text-xs font-semibold py-2 rounded-xl transition shadow-sm text-center">
+                            ดาวน์โหลด manifest.json
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- Bottom Navigation Bar -->
-    <nav class="bg-white border-t border-slate-100 fixed bottom-0 left-0 right-0 py-2 shadow-lg">
+    <!-- Bottom Navigation Bar for Mobile -->
+    <nav class="bg-white border-t border-slate-200 fixed bottom-0 left-0 right-0 py-2 shadow-lg z-40">
         <div class="max-w-md mx-auto flex justify-around text-xs font-medium text-slate-500">
-            <button onclick="switchTab('assessment')" id="bot-assessment" class="flex flex-col items-center text-indigo-600">
-                <span class="text-lg">📋</span>
-                <span>ประเมิน</span>
+            <button onclick="switchTab('assessment')" id="bot-assessment" class="flex flex-col items-center text-teal-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                <span class="mt-0.5">ประเมิน</span>
             </button>
-            <button onclick="switchTab('dashboard')" id="bot-dashboard" class="flex flex-col items-center hover:text-indigo-600">
-                <span class="text-lg">📊</span>
-                <span>แดชบอร์ด</span>
+            <button onclick="switchTab('dashboard')" id="bot-dashboard" class="flex flex-col items-center hover:text-teal-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
+                <span class="mt-0.5">แดชบอร์ด</span>
             </button>
-            <button onclick="switchTab('icon')" id="bot-icon" class="flex flex-col items-center hover:text-indigo-600">
-                <span class="text-lg">🎨</span>
-                <span>App Icon</span>
+            <button onclick="switchTab('icon')" id="bot-icon" class="flex flex-col items-center hover:text-teal-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span class="mt-0.5">App Icon</span>
             </button>
         </div>
     </nav>
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Application Logic -->
     <script>
-        // Set default date to today
+        // Set today's date as default
         document.getElementById('evalDate').valueAsDate = new Date();
 
         let evaluations = JSON.parse(localStorage.getItem('evaluations') || '[]');
@@ -261,12 +291,12 @@
         function switchTab(tabName) {
             ['assessment', 'dashboard', 'icon'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`bot-${t}`).classList.remove('text-indigo-600');
+                document.getElementById(`bot-${t}`).classList.remove('text-teal-600');
                 document.getElementById(`bot-${t}`).classList.add('text-slate-500');
             });
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
             document.getElementById(`bot-${tabName}`).classList.remove('text-slate-500');
-            document.getElementById(`bot-${tabName}`).classList.add('text-indigo-600');
+            document.getElementById(`bot-${tabName}`).classList.add('text-teal-600');
 
             if (tabName === 'dashboard') {
                 renderDashboard();
@@ -336,19 +366,28 @@
             }
         }
 
+        function clearData() {
+            if (confirm('คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลการประเมินทั้งหมด?')) {
+                evaluations = [];
+                localStorage.removeItem('evaluations');
+                renderDashboard();
+            }
+        }
+
         function showResultCard(record, res) {
             const card = document.getElementById('resultCard');
             const badge = document.getElementById('resBadge');
             const content = document.getElementById('resContent');
 
             card.classList.remove('hidden');
-            badge.className = `px-2 py-0.5 rounded-full text-xs font-bold ${res.badgeClass}`;
-            badge.innerText = `คะแนน: ${record.score} | ${res.severity}`;
+            badge.className = `px-2.5 py-1 rounded-full text-xs font-bold ${res.badgeClass}`;
+            badge.innerText = `คะแนน: ${record.score} | ${res.category}`;
 
             content.innerHTML = `
                 <p><strong>ผู้รับการประเมิน:</strong> ${record.clientName} (${record.evalDate})</p>
+                <p><strong>ระดับระยะแรงจูงใจ:</strong> ${res.severity}</p>
                 <p><strong>คำแนะนำเชิงพฤติกรรม (Brief Intervention Guide):</strong> ${res.advice}</p>
-                <button onclick="switchTab('dashboard')" class="mt-2 text-indigo-600 font-semibold hover:underline block">ดูกราฟสรุปผลภาพรวม Dashboard &rarr;</button>
+                <button onclick="switchTab('dashboard')" class="mt-2 text-teal-600 font-semibold hover:underline block">ดูกราฟสรุปผลภาพรวม Dashboard &rarr;</button>
             `;
             card.scrollIntoView({ behavior: 'smooth' });
         }
@@ -359,26 +398,26 @@
                 e.clientName.toLowerCase().includes(query) || e.evalDate.includes(query)
             );
 
-            // Update KPIs
+            // Update Executive KPIs
             document.getElementById('kpiTotal').innerText = `${filteredData.length} คน`;
             document.getElementById('kpiAction').innerText = `${filteredData.filter(e => e.score >= 9).length} คน`;
             document.getElementById('kpiPrep').innerText = `${filteredData.filter(e => e.score >= 6 && e.score <= 8).length} คน`;
             document.getElementById('kpiLow').innerText = `${filteredData.filter(e => e.score <= 5).length} คน`;
 
-            // Render table history
+            // History Table Rendering
             const tbody = document.getElementById('historyTableBody');
             tbody.innerHTML = '';
             if (filteredData.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400">ไม่พบข้อมูลการประเมิน</td></tr>`;
             } else {
                 [...filteredData].reverse().forEach(item => {
-                    let badgeColor = item.score >= 9 ? 'text-emerald-600' : (item.score >= 6 ? 'text-sky-600' : (item.score >= 2 ? 'text-amber-600' : 'text-rose-600'));
+                    let badgeColor = item.score >= 9 ? 'text-emerald-600 font-bold' : (item.score >= 6 ? 'text-sky-600 font-bold' : (item.score >= 2 ? 'text-amber-600 font-bold' : 'text-rose-600 font-bold'));
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50">
-                            <td class="p-2 whitespace-nowrap">${item.evalDate}</td>
-                            <td class="p-2 font-medium">${item.clientName}</td>
-                            <td class="p-2 font-bold ${badgeColor}">ขั้น ${item.score}</td>
-                            <td class="p-2 text-xs">${item.severity || item.category}</td>
+                            <td class="p-2 whitespace-nowrap text-slate-600">${item.evalDate}</td>
+                            <td class="p-2 font-medium text-slate-800">${item.clientName}</td>
+                            <td class="p-2 ${badgeColor}">ขั้น ${item.score}</td>
+                            <td class="p-2 text-xs text-slate-600">${item.category}</td>
                             <td class="p-2 text-center">
                                 <button onclick="deleteRecord(${item.id})" class="text-rose-500 hover:text-rose-700 font-bold px-1">✕</button>
                             </td>
@@ -387,7 +426,7 @@
                 });
             }
 
-            // Render Charts
+            // Calculations for Charts
             const counts = { action: 0, prep: 0, contem: 0, precontem: 0 };
             evaluations.forEach(e => {
                 if (e.score >= 9) counts.action++;
@@ -396,7 +435,7 @@
                 else counts.precontem++;
             });
 
-            // Risk Pie Chart
+            // Doughnut Chart Setup
             const ctx = document.getElementById('riskChart').getContext('2d');
             if (chartInstance) chartInstance.destroy();
 
@@ -419,7 +458,7 @@
                 }
             });
 
-            // Monthly Trend Line Chart
+            // Monthly Trend Chart Setup
             const monthCounts = {};
             evaluations.forEach(e => {
                 const month = e.evalDate.substring(0, 7); // YYYY-MM
@@ -437,8 +476,8 @@
                     datasets: [{
                         label: 'จำนวนผู้รับการประเมิน',
                         data: sortedMonths.length ? sortedMonths.map(m => monthCounts[m]) : [0],
-                        borderColor: '#4F46E5',
-                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderColor: '#0D9488',
+                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
                         fill: true,
                         tension: 0.3
                     }]
@@ -480,7 +519,41 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `alcohol_motivation_report_${new Date().toISOString().slice(0,10)}.csv`;
+            a.download = `contemplation_ladder_report_${new Date().toISOString().slice(0,10)}.csv`;
+            a.click();
+        }
+
+        function downloadSvgIcon() {
+            const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="128" fill="#0D9488"/><path d="M160 384H352M160 288H352M160 192H352" stroke="white" stroke-width="32" stroke-linecap="round"/><path d="M200 384V160M312 384V160" stroke="white" stroke-width="24" stroke-linecap="round"/><path d="M256 110L312 170H200L256 110Z" fill="#34D399"/></svg>`;
+            const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'icon.svg';
+            a.click();
+        }
+
+        function downloadManifest() {
+            const manifestContent = {
+                "name": "Contemplation Ladder Motivation App",
+                "short_name": "LadderApp",
+                "start_url": ".",
+                "display": "standalone",
+                "background_color": "#F8FAFC",
+                "theme_color": "#0D9488",
+                "icons": [
+                    {
+                        "src": "icon.svg",
+                        "sizes": "512x512",
+                        "type": "image/svg+xml"
+                    }
+                ]
+            };
+            const blob = new Blob([JSON.stringify(manifestContent, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'manifest.json';
             a.click();
         }
     </script>
